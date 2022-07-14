@@ -1,37 +1,37 @@
-const path = require("path");
+const path = require('path');
 
 module.exports = {
-  mode: "development",
-  entry: "./index.js",
+  mode: 'development',
+  entry: './index.js',
   output: {
-    path: path.resolve(__dirname, "public"),
-    filename: "main.js",
+    path: path.resolve(__dirname, 'public'),
+    filename: 'main.js',
   },
 
-  target: "web",
+  target: 'web',
   devServer: {
-    port: "3000",
-    static: ["./public"],
+    port: '3000',
+    static: ['./public'],
     open: true,
     hot: true,
     liveReload: true,
   },
   resolve: {
-    extensions: [".js", ".jsx", ".json", ".ts"],
+    extensions: ['.js', '.jsx', '.json', '.ts'],
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: "babel-loader",
+        use: 'babel-loader',
       },
       {
         test: /\.css$/,
         use: [
-          "style-loader",
+          'style-loader',
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               importLoaders: 1,
               modules: true,
@@ -42,7 +42,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
         exclude: /\.module\.css$/,
       },
     ],
