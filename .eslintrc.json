@@ -32,8 +32,11 @@
       "off"
     ],
     "react/jsx-props-no-spreading": [
-      "warn"
+      "off"
     ],
-    "no-shadow": "off"
+    "no-shadow": "off",
+    "react/prop-types": [
+      0
+    ]
   }
 }

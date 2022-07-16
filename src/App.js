@@ -1,5 +1,16 @@
+// MY COMPONENTS
+import AppCalculator from "./AppCalculator";
+
+// PROVIDERS
+import { CalculatorContextProvider } from "./contexts/CalculatorContext";
+
 function App() {
-  return <h1>Hello world! I am using React</h1>;
+  return (
+    <CalculatorContextProvider>
+      <h1>Hello world</h1>
+      <AppCalculator />
+    </CalculatorContextProvider>
+  );
 }
 
 export default App;
