@@ -25,10 +25,11 @@ function AppCalculator() {
     displayedValue = input.toString().replace(".", ",");
   }
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       className="paper"
       onClick={() => {
-        console.log(123);
+        clearInput();
       }}
     >
       <div className="calculator">
