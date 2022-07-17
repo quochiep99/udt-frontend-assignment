@@ -18,8 +18,14 @@ const initialState = {
 };
 
 const handlers = {
-  CLEAR_INPUT: () => {
-    return initialState;
+  CLEAR_INPUT: (state) => {
+    return produce(state, (draft) => {
+      draft.isTouched = false;
+      draft.input = "";
+      draft.expression = [];
+      draft.expressionResult = 0;
+      draft.isEvaluated = false;
+    });
   },
 
   UPDATE_OPERATOR: (state, action) => {
