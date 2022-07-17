@@ -48,6 +48,7 @@
   "dependencies": {
     "eslint-config-react-app": "^7.0.1",
     "immer": "^9.0.15",
+    "nanoid": "^4.0.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0"

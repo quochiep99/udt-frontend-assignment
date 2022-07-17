@@ -1,8 +1,10 @@
 /* eslint-disable no-param-reassign */
 // HOOKS
-import { createContext, useMemo, useReducer } from "react";
+import { createContext, useEffect, useMemo, useReducer } from "react";
 
 import produce from "immer";
+
+import { nanoid } from "nanoid";
 
 const operators = ["+", "-", "*", "/"];
 
@@ -12,6 +14,7 @@ const initialState = {
   expression: [],
   expressionResult: 0,
   isEvaluated: false,
+  history: [],
 };
 
 const handlers = {
@@ -95,18 +98,33 @@ const handlers = {
     });
   },
 
+  UPDATE_HISTORY: (state, action) => {
+    return produce(state, (draft) => {
+      draft.history = action.payload;
+    });
+  },
+
   EVALUATE_EXPRESSION: (state) => {
     return produce(state, (draft) => {
       // if the expression is already evaluated, then pressing the "=" will do nothing
-      if (draft.expression.length > 0) {
+      // make sure that expression must contain both operators and operands
+      if (draft.expression.length > 2) {
         let expressionResult = 0;
+        const expressionString = draft.expression
+          .toString()
+          .replaceAll(",", "");
         try {
           // eslint-disable-next-line no-eval
-          expressionResult = eval(
-            draft.expression.toString().replaceAll(",", ""),
-          );
+          expressionResult = eval(expressionString);
           draft.expressionResult = expressionResult;
           draft.input = draft.expressionResult;
+          const newHistory = {
+            id: nanoid(),
+            expressionString,
+            expressionResult,
+          };
+          draft.history.push(newHistory);
+          localStorage.setItem("history", JSON.stringify(draft.history));
         } catch (err) {
           // draft.input = "";
           draft.expression = [];
@@ -138,6 +156,19 @@ const CalculatorContext = createContext({
 function CalculatorContextProvider(props) {
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    let history;
+    try {
+      history = JSON.parse(localStorage.getItem("history")) ?? [];
+    } catch (err) {
+      history = [];
+      // eslint-disable-next-line no-console
+      console.log(err);
+    } finally {
+      dispatch({ type: "UPDATE_HISTORY", payload: history });
+    }
+  }, []);
 
   const clearInput = () => {
     dispatch({ type: "CLEAR_INPUT" });
